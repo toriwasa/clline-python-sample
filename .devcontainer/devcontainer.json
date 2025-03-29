@@ -33,5 +33,9 @@
                 "GitHub.copilot"
             ]
         }
+    },
+    "containerEnv": {
+        // uv が利用する仮想環境のパスを指定
+        "UV_PROJECT_ENVIRONMENT": "/workspace/.venv"
     }
 }
