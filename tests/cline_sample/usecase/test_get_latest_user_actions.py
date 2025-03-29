@@ -11,14 +11,13 @@ from cline_sample.usecase.get_latest_user_actions import get_latest_user_actions
 @pytest.fixture(scope="session")
 def spark():
     """テストで使用する SparkSession を提供する fixture"""
-    spark = SparkSession.builder \
-        .appName("TestSparkSession") \
-        .master("local[*]") \
+    spark = (
+        SparkSession.builder.appName("TestSparkSession")
+        .master("local[*]")
         .getOrCreate()
+    )
     yield spark
     spark.stop()
-
-
 
 
 def test_同一ユーザーの場合最新のレコードのみが残る(spark: SparkSession):
@@ -32,33 +31,39 @@ def test_同一ユーザーの場合最新のレコードのみが残る(spark: 
         NEW_TIME = datetime(2024, 1, 1, 11, 0, 0)
 
     # Arrange
-    input_df = spark.createDataFrame([
-        Row(
-            id=1,
-            username=ConstantsHelper.USERNAME,
-            user_machine_id=ConstantsHelper.USER_MACHINE_ID,
-            action_name=ConstantsHelper.ACTION_NAME,
-            action_time=ConstantsHelper.OLD_TIME,
-        ),
-        Row(
-            id=2,
-            username=ConstantsHelper.USERNAME,
-            user_machine_id=ConstantsHelper.USER_MACHINE_ID,
-            action_name=ConstantsHelper.ACTION_NAME,
-            action_time=ConstantsHelper.NEW_TIME,
-        ),
-    ], schema=UserActionDataFrame.SCHEMA)
+    input_df = spark.createDataFrame(
+        [
+            Row(
+                id=1,
+                username=ConstantsHelper.USERNAME,
+                user_machine_id=ConstantsHelper.USER_MACHINE_ID,
+                action_name=ConstantsHelper.ACTION_NAME,
+                action_time=ConstantsHelper.OLD_TIME,
+            ),
+            Row(
+                id=2,
+                username=ConstantsHelper.USERNAME,
+                user_machine_id=ConstantsHelper.USER_MACHINE_ID,
+                action_name=ConstantsHelper.ACTION_NAME,
+                action_time=ConstantsHelper.NEW_TIME,
+            ),
+        ],
+        schema=UserActionDataFrame.SCHEMA,
+    )
     user_actions = UserActionDataFrame(input_df)
 
-    expected_df = spark.createDataFrame([
-        Row(
-            id=2,
-            username=ConstantsHelper.USERNAME,
-            user_machine_id=ConstantsHelper.USER_MACHINE_ID,
-            action_name=ConstantsHelper.ACTION_NAME,
-            action_time=ConstantsHelper.NEW_TIME,
-        ),
-    ], schema=UserActionDataFrame.SCHEMA)
+    expected_df = spark.createDataFrame(
+        [
+            Row(
+                id=2,
+                username=ConstantsHelper.USERNAME,
+                user_machine_id=ConstantsHelper.USER_MACHINE_ID,
+                action_name=ConstantsHelper.ACTION_NAME,
+                action_time=ConstantsHelper.NEW_TIME,
+            ),
+        ],
+        schema=UserActionDataFrame.SCHEMA,
+    )
 
     # Act
     result = get_latest_user_actions(user_actions)
@@ -82,58 +87,64 @@ def test_複数ユーザーの場合各ユーザーの最新レコードが残�
         USER2_NEW_TIME = datetime(2024, 1, 1, 13, 0, 0)
 
     # Arrange
-    input_df = spark.createDataFrame([
-        # User1のレコード
-        Row(
-            id=1,
-            username=ConstantsHelper.USER1,
-            user_machine_id=ConstantsHelper.MACHINE1,
-            action_name=ConstantsHelper.ACTION,
-            action_time=ConstantsHelper.USER1_OLD_TIME,
-        ),
-        Row(
-            id=2,
-            username=ConstantsHelper.USER1,
-            user_machine_id=ConstantsHelper.MACHINE1,
-            action_name=ConstantsHelper.ACTION,
-            action_time=ConstantsHelper.USER1_NEW_TIME,
-        ),
-        # User2のレコード
-        Row(
-            id=3,
-            username=ConstantsHelper.USER2,
-            user_machine_id=ConstantsHelper.MACHINE2,
-            action_name=ConstantsHelper.ACTION,
-            action_time=ConstantsHelper.USER2_OLD_TIME,
-        ),
-        Row(
-            id=4,
-            username=ConstantsHelper.USER2,
-            user_machine_id=ConstantsHelper.MACHINE2,
-            action_name=ConstantsHelper.ACTION,
-            action_time=ConstantsHelper.USER2_NEW_TIME,
-        ),
-    ], schema=UserActionDataFrame.SCHEMA)
+    input_df = spark.createDataFrame(
+        [
+            # User1のレコード
+            Row(
+                id=1,
+                username=ConstantsHelper.USER1,
+                user_machine_id=ConstantsHelper.MACHINE1,
+                action_name=ConstantsHelper.ACTION,
+                action_time=ConstantsHelper.USER1_OLD_TIME,
+            ),
+            Row(
+                id=2,
+                username=ConstantsHelper.USER1,
+                user_machine_id=ConstantsHelper.MACHINE1,
+                action_name=ConstantsHelper.ACTION,
+                action_time=ConstantsHelper.USER1_NEW_TIME,
+            ),
+            # User2のレコード
+            Row(
+                id=3,
+                username=ConstantsHelper.USER2,
+                user_machine_id=ConstantsHelper.MACHINE2,
+                action_name=ConstantsHelper.ACTION,
+                action_time=ConstantsHelper.USER2_OLD_TIME,
+            ),
+            Row(
+                id=4,
+                username=ConstantsHelper.USER2,
+                user_machine_id=ConstantsHelper.MACHINE2,
+                action_name=ConstantsHelper.ACTION,
+                action_time=ConstantsHelper.USER2_NEW_TIME,
+            ),
+        ],
+        schema=UserActionDataFrame.SCHEMA,
+    )
     user_actions = UserActionDataFrame(input_df)
 
-    expected_df = spark.createDataFrame([
-        # User1の最新レコード
-        Row(
-            id=2,
-            username=ConstantsHelper.USER1,
-            user_machine_id=ConstantsHelper.MACHINE1,
-            action_name=ConstantsHelper.ACTION,
-            action_time=ConstantsHelper.USER1_NEW_TIME,
-        ),
-        # User2の最新レコード
-        Row(
-            id=4,
-            username=ConstantsHelper.USER2,
-            user_machine_id=ConstantsHelper.MACHINE2,
-            action_name=ConstantsHelper.ACTION,
-            action_time=ConstantsHelper.USER2_NEW_TIME,
-        ),
-    ], schema=UserActionDataFrame.SCHEMA)
+    expected_df = spark.createDataFrame(
+        [
+            # User1の最新レコード
+            Row(
+                id=2,
+                username=ConstantsHelper.USER1,
+                user_machine_id=ConstantsHelper.MACHINE1,
+                action_name=ConstantsHelper.ACTION,
+                action_time=ConstantsHelper.USER1_NEW_TIME,
+            ),
+            # User2の最新レコード
+            Row(
+                id=4,
+                username=ConstantsHelper.USER2,
+                user_machine_id=ConstantsHelper.MACHINE2,
+                action_name=ConstantsHelper.ACTION,
+                action_time=ConstantsHelper.USER2_NEW_TIME,
+            ),
+        ],
+        schema=UserActionDataFrame.SCHEMA,
+    )
 
     # Act
     result = get_latest_user_actions(user_actions)
@@ -153,26 +164,32 @@ def test_単一レコードの場合そのレコードが残る(spark: SparkSess
         ACTION_TIME = datetime(2024, 1, 1, 10, 0, 0)
 
     # Arrange
-    input_df = spark.createDataFrame([
-        Row(
-            id=ConstantsHelper.ID,
-            username=ConstantsHelper.USERNAME,
-            user_machine_id=ConstantsHelper.USER_MACHINE_ID,
-            action_name=ConstantsHelper.ACTION_NAME,
-            action_time=ConstantsHelper.ACTION_TIME,
-        ),
-    ], schema=UserActionDataFrame.SCHEMA)
+    input_df = spark.createDataFrame(
+        [
+            Row(
+                id=ConstantsHelper.ID,
+                username=ConstantsHelper.USERNAME,
+                user_machine_id=ConstantsHelper.USER_MACHINE_ID,
+                action_name=ConstantsHelper.ACTION_NAME,
+                action_time=ConstantsHelper.ACTION_TIME,
+            ),
+        ],
+        schema=UserActionDataFrame.SCHEMA,
+    )
     user_actions = UserActionDataFrame(input_df)
 
-    expected_df = spark.createDataFrame([
-        Row(
-            id=ConstantsHelper.ID,
-            username=ConstantsHelper.USERNAME,
-            user_machine_id=ConstantsHelper.USER_MACHINE_ID,
-            action_name=ConstantsHelper.ACTION_NAME,
-            action_time=ConstantsHelper.ACTION_TIME,
-        ),
-    ], schema=UserActionDataFrame.SCHEMA)
+    expected_df = spark.createDataFrame(
+        [
+            Row(
+                id=ConstantsHelper.ID,
+                username=ConstantsHelper.USERNAME,
+                user_machine_id=ConstantsHelper.USER_MACHINE_ID,
+                action_name=ConstantsHelper.ACTION_NAME,
+                action_time=ConstantsHelper.ACTION_TIME,
+            ),
+        ],
+        schema=UserActionDataFrame.SCHEMA,
+    )
 
     # Act
     result = get_latest_user_actions(user_actions)

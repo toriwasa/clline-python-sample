@@ -14,8 +14,7 @@ from pyspark.sql.types import (
 
 # Constants
 TABLE_NAME = "UserAction"
-TSV_COLUMNS = ["id", "username", "user_machine_id",
-               "action_name", "action_time"]
+TSV_COLUMNS = ["id", "username", "user_machine_id", "action_name", "action_time"]
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
@@ -53,13 +52,15 @@ def _read_tsv(spark: SparkSession, file_path: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: 読み込んだデータ
     """
-    schema = StructType([
-        StructField("id", IntegerType(), True),
-        StructField("username", StringType(), True),
-        StructField("user_machine_id", StringType(), True),
-        StructField("action_name", StringType(), True),
-        StructField("action_time", TimestampType(), True)
-    ])
+    schema = StructType(
+        [
+            StructField("id", IntegerType(), True),
+            StructField("username", StringType(), True),
+            StructField("user_machine_id", StringType(), True),
+            StructField("action_name", StringType(), True),
+            StructField("action_time", TimestampType(), True),
+        ]
+    )
 
     df = spark.read.csv(file_path, schema=schema, sep="\t", header=True)
     return df.toPandas()
@@ -98,7 +99,8 @@ def write_tsv_to_sqlite(tsv_path: str, sqlite_path: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TSVファイルの内容をSQLiteのUserActionテーブルに書き込むツール")
+        description="TSVファイルの内容をSQLiteのUserActionテーブルに書き込むツール"
+    )
     parser.add_argument("tsv_path", help="入力TSVファイルのパス")
     parser.add_argument("sqlite_path", help="出力SQLiteデータベースのパス")
 

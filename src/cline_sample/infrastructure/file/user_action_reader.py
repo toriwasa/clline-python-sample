@@ -1,10 +1,18 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, TimestampType
+from pyspark.sql.types import (
+    StructType,
+    StructField,
+    StringType,
+    IntegerType,
+    TimestampType,
+)
 
 from domain.models.user_action import UserActionDataFrame
 
 
-def read_user_action_tsv_as_df(file_path: str = "data/tsv/user_action.tsv") -> UserActionDataFrame:
+def read_user_action_tsv_as_df(
+    file_path: str = "data/tsv/user_action.tsv",
+) -> UserActionDataFrame:
     """TSVファイルからユーザーアクションのデータを読み込みUserActionDataFrameを返却する
 
     Args:
@@ -20,13 +28,17 @@ def read_user_action_tsv_as_df(file_path: str = "data/tsv/user_action.tsv") -> U
     spark: SparkSession = SparkSession.builder.appName("UserActionReader").getOrCreate()
 
     # スキーマの定義
-    schema = StructType([
-        StructField("id", IntegerType(), True),  # 一時的にStringTypeとして読み込み
-        StructField("username", StringType(), True),
-        StructField("user_machine_id", StringType(), True),
-        StructField("action_name", StringType(), True),
-        StructField("action_time", TimestampType(), True)  # 一時的にStringTypeとして読み込み
-    ])
+    schema = StructType(
+        [
+            StructField("id", IntegerType(), True),  # 一時的にStringTypeとして読み込み
+            StructField("username", StringType(), True),
+            StructField("user_machine_id", StringType(), True),
+            StructField("action_name", StringType(), True),
+            StructField(
+                "action_time", TimestampType(), True
+            ),  # 一時的にStringTypeとして読み込み
+        ]
+    )
 
     try:
         # TSVファイルの読み込み

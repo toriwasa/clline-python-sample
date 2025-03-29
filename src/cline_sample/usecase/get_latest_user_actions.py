@@ -18,9 +18,8 @@ def get_latest_user_actions(user_actions: UserActionDataFrame) -> UserActionData
     window_spec = Window.partitionBy("username").orderBy(col("action_time").desc())
     df_with_row_number = df.withColumn("row_number", row_number().over(window_spec))
 
-    df_latest_actions = (
-        df_with_row_number.filter(col("row_number") == 1)
-        .drop(col("row_number"))
+    df_latest_actions = df_with_row_number.filter(col("row_number") == 1).drop(
+        col("row_number")
     )
 
     return UserActionDataFrame(df_latest_actions)

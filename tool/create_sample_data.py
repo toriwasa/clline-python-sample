@@ -13,7 +13,7 @@ ACTION_NAMES = [
     "upload_file",
     "create_document",
     "share_content",
-    "change_settings"
+    "change_settings",
 ]
 
 
@@ -47,17 +47,18 @@ def create_sample_data() -> None:
         user_machine_id = f"MACHINE-{random.randint(1000, 9999)}"
         action_name = random.choice(ACTION_NAMES)
         action_time = start_time + timedelta(
-            seconds=random.randint(
-                0, int((end_time - start_time).total_seconds()))
+            seconds=random.randint(0, int((end_time - start_time).total_seconds()))
         )
 
-        data.append({
-            "id": i + 1,
-            "username": username,
-            "user_machine_id": user_machine_id,
-            "action_name": action_name,
-            "action_time": action_time.isoformat()
-        })
+        data.append(
+            {
+                "id": i + 1,
+                "username": username,
+                "user_machine_id": user_machine_id,
+                "action_name": action_name,
+                "action_time": action_time.isoformat(),
+            }
+        )
 
     # TSVファイルへの出力
     with output_path.open("w", encoding="utf-8") as f:
@@ -67,7 +68,8 @@ def create_sample_data() -> None:
         # データの書き込み
         for row in sorted(data, key=lambda x: x["action_time"]):
             f.write(
-                f"{row['id']}\t{row['username']}\t{row['user_machine_id']}\t{row['action_name']}\t{row['action_time']}\n")
+                f"{row['id']}\t{row['username']}\t{row['user_machine_id']}\t{row['action_name']}\t{row['action_time']}\n"
+            )
 
 
 if __name__ == "__main__":
