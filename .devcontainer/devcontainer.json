@@ -11,7 +11,9 @@
     "workspaceFolder": "/workspace",
     "features": {
         // 開発コンテナで SQLite3 を利用できるようにする
-        "ghcr.io/warrenbuckley/codespace-features/sqlite:latest": {}
+        "ghcr.io/warrenbuckley/codespace-features/sqlite:latest": {},
+        // 開発コンテナで Spark を利用できるようにする
+        "ghcr.io/devcontainers-extra/features/spark-sdkman:2": {}
     },
     "customizations": {
         "vscode": {

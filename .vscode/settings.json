@@ -45,5 +45,17 @@
         }
     ],
     // 【Python固有の設定】
-    "[Python]": {}
+    "[Python]": {
+        // 保存時の自動フォーマットを有効にする
+        "editor.formatOnSave": true,
+        // FormatterをRuffに設定
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        // 保存時の挙動を設定
+        "editor.codeActionsOnSave": {
+            // 自動フォーマット時にコードの修正を行う
+            "source.fixAll": "explicit",
+            // 自動フォーマット時にimportの整理を行う
+            "source.organizeImports": "explicit"
+        },
+    }
 }
