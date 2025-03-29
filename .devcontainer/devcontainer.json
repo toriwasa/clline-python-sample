@@ -36,6 +36,7 @@
     },
     "containerEnv": {
         // uv が利用する仮想環境のパスを指定
-        "UV_PROJECT_ENVIRONMENT": "/workspace/.venv"
+        // workspace とは別の場所に指定しないとハードリンクが作成できずエラーが発生してしまう
+        "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
     }
 }
