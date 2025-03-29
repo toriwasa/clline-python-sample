@@ -2,22 +2,23 @@
 
 ## 技術スタック
 - プログラミング言語: Python
-- 単体テストフレームワーク: pytest
+- パッケージマネージャ: uv
 - DataFrame ライブラリ: Spark
-- Linter: Ruff
 - Formatter: Ruff
+- Linter: Ruff
 - Type Checker: pyright
-
-## Linterの実行方法
-
-```bash
-uv run ruff check --fix
-```
+- 単体テストフレームワーク: pytest
 
 ## Formatterの実行方法
 
 ```bash
 uv run ruff format
+```
+
+## Linterの実行方法
+
+```bash
+uv run ruff check --fix
 ```
 
 ## Type Checkerの実行方法
@@ -29,6 +30,12 @@ uv run pyright
 ```bash
 PYTHONPATH=src uv run pytest
 ```
+
+## 実装時の注意点
+- プロダクトコード作成後は Formatter を実行してください
+- プロダクトコード作成後は Linter を実行して、エラーが発生した場合は修正してください
+- プロダクトコード作成後は Type Checker を実行して、エラーが発生した場合は修正してください
+- プロダクトコード作成後は単体テストを実行して、エラーが発生した場合は修正してください
 
 ## ディレクトリ構成
 
@@ -72,8 +79,25 @@ PYTHONPATH=src uv run pytest
 - models 層のデータクラスを利用するビジネスロジック処理を usecase 層の公開関数に定義してください
 - usecase 層の公開関数は関数型プログラミングの考え方に基づいて、副作用のない純粋関数になるように設計してください
 - usecase 層の関数は引数と戻り値の型を明示的に指定してください
+- usecase 層の公開関数は、異常系データが存在する場合に例外を返却するバリデーションチェック処理と、正常系データを加工する処理を異なる関数に分割して実装してください
+- usecase 層の バリデーションチェック処理は models 層のデータクラスを引数に受け取り、異常系データが存在する場合は例外インスタンスを返却する関数を定義してください。異常系データが存在しない場合は None を返却してください
+- usecase 層のデータ加工処理は、models 層のデータクラスを引数に受け取り、正常系データを加工したデータクラスを返却する関数を定義してください
 - infrastructure 層や usecase 層の公開関数を呼び出して処理の目的を達成するコントローラー層の公開関数を controller 層に定義してください
 - CUIで実行時のパラメータを受け取りコントローラー層の公開関数を呼び出す公開関数を handler/cui 層の cui 層に定義してください
+
+## 新規コードの設計ルール
+- 公開関数を新規に設計する際は、以下の順序で設計してください
+  - usecase層のビジネスロジック関数 バリデーションチェック処理
+  - usecase層のビジネスロジック関数 バリデーションチェック処理の単体テスト
+  - usecase層のビジネスロジック関数 正常系データ加工処理
+  - usecase層のビジネスロジック関数 正常系データ加工処理の単体テスト
+  - infrastructure層のデータ読み込み関数
+  - infrastructure層のデータ書き込み関数
+  - controller層の公開関数呼び出しコントローラー関数
+- 最初にビジネスロジックで扱うデータの整合性を保つためのバリデーションチェック処理を設計してください
+- 次に整合性が担保されたデータを加工するビジネスロジック関数を設計してください
+- 次にビジネスロジック関数を入出力するためのデータ読み込み関数およびデータ書き込み関数を設計してください
+- 最後に作成した公開関数を呼び出すコントローラー関数を設計してください
 
 ## infrastructure 層の関数設計方針
 - infrastructure 層の公開関数は引数として Literal 型の env を受け取るようにしてください
@@ -148,6 +172,12 @@ class User:
 ## SparkDataFrameを引数に持つ公開関数の単体テストコードサンプル
 
 ```python
+SCHEMA = StructType([
+    StructField("id", StringType(), True),
+    StructField("name", StringType(), True),
+    StructField("age", IntegerType(), True),
+])
+
 def test_不正なユーザー情報は集計されない(spark: SparkSession):
     # Arrange
     class ConstantHelper:
@@ -158,14 +188,14 @@ def test_不正なユーザー情報は集計されない(spark: SparkSession):
         AGE_VALID = 25
         AGE_INVALID = 30
 
-    input_df = [
+    input_df = spark.createDataFrame([
         Row(id=ConstantHelper.ID_1, name=ConstantHelper.NAME_1, age=ConstantHelper.AGE_VALID),
         Row(id=ConstantHelper.ID_2, name=ConstantHelper.NAME_2, age=ConstantHelper.AGE_INVALID)
-    ]
+    ], schema=SCHEMA)
 
-    expected_df = [
+    expected_df = spark.createDataFrame([
         Row(id=ConstantHelper.ID_1, name=ConstantHelper.NAME_1, age=ConstantHelper.AGE_VALID),
-    ]
+    ], schema=SCHEMA)
 
     # Act
     actual_df = filter_invalid_user(input_df)
@@ -174,8 +204,3 @@ def test_不正なユーザー情報は集計されない(spark: SparkSession):
     assertDataFrameEqual(actual_df, expected_df)
 ```
 
-## 実装時の注意点
-- 実装後は Formatter を実行してください
-- 実装後は Linter を実行して、エラーが発生した場合は修正してください
-- 実装後は Type Checker を実行して、エラーが発生した場合は修正してください
-- 実装後は単体テストを実行して、エラーが発生した場合は修正してください
