@@ -1,5 +1,5 @@
 from pyspark.sql import Window
-from pyspark.sql.functions import row_number
+from pyspark.sql.functions import row_number, desc, col
 
 from cline_sample.domain.models.user_action import UserActionDataFrame
 
@@ -13,12 +13,14 @@ def get_latest_user_actions(user_actions: UserActionDataFrame) -> UserActionData
     Returns:
         UserActionDataFrame: ユーザー名ごとに最新のアクションレコードだけを含むデータフレーム
     """
-    window_spec = Window.partitionBy("username").orderBy("action_time", ascending=False)
+    df = user_actions.df
 
-    latest_actions_df = (
-        user_actions.df.withColumn("row_number", row_number().over(window_spec))
-        .filter("row_number = 1")
-        .drop("row_number")
+    window_spec = Window.partitionBy("username").orderBy(col("action_time").desc())
+    df_with_row_number = df.withColumn("row_number", row_number().over(window_spec))
+
+    df_latest_actions = (
+        df_with_row_number.filter(col("row_number") == 1)
+        .drop(col("row_number"))
     )
 
-    return UserActionDataFrame(latest_actions_df)
+    return UserActionDataFrame(df_latest_actions)

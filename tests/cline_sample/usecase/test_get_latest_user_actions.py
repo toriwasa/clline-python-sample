@@ -2,6 +2,7 @@ from datetime import datetime
 
 import pytest
 from pyspark.sql import Row, SparkSession
+from pyspark.testing import assertDataFrameEqual
 
 from cline_sample.domain.models.user_action import UserActionDataFrame
 from cline_sample.usecase.get_latest_user_actions import get_latest_user_actions
@@ -46,7 +47,7 @@ def test_同一ユーザーの場合最新のレコードのみが残る(spark: 
             action_name=ConstantsHelper.ACTION_NAME,
             action_time=ConstantsHelper.NEW_TIME,
         ),
-    ])
+    ], schema=UserActionDataFrame.SCHEMA)
     user_actions = UserActionDataFrame(input_df)
 
     expected_df = spark.createDataFrame([
@@ -57,13 +58,13 @@ def test_同一ユーザーの場合最新のレコードのみが残る(spark: 
             action_name=ConstantsHelper.ACTION_NAME,
             action_time=ConstantsHelper.NEW_TIME,
         ),
-    ])
+    ], schema=UserActionDataFrame.SCHEMA)
 
     # Act
     result = get_latest_user_actions(user_actions)
 
     # Assert
-    assert result.df.collect() == expected_df.collect()
+    assertDataFrameEqual(result.df, expected_df)
 
 
 def test_複数ユーザーの場合各ユーザーの最新レコードが残る(spark: SparkSession):
@@ -112,7 +113,7 @@ def test_複数ユーザーの場合各ユーザーの最新レコードが残�
             action_name=ConstantsHelper.ACTION,
             action_time=ConstantsHelper.USER2_NEW_TIME,
         ),
-    ])
+    ], schema=UserActionDataFrame.SCHEMA)
     user_actions = UserActionDataFrame(input_df)
 
     expected_df = spark.createDataFrame([
@@ -132,13 +133,13 @@ def test_複数ユーザーの場合各ユーザーの最新レコードが残�
             action_name=ConstantsHelper.ACTION,
             action_time=ConstantsHelper.USER2_NEW_TIME,
         ),
-    ])
+    ], schema=UserActionDataFrame.SCHEMA)
 
     # Act
     result = get_latest_user_actions(user_actions)
 
     # Assert
-    assert result.df.collect() == expected_df.collect()
+    assertDataFrameEqual(result.df, expected_df)
 
 
 def test_単一レコードの場合そのレコードが残る(spark: SparkSession):
@@ -160,7 +161,7 @@ def test_単一レコードの場合そのレコードが残る(spark: SparkSess
             action_name=ConstantsHelper.ACTION_NAME,
             action_time=ConstantsHelper.ACTION_TIME,
         ),
-    ])
+    ], schema=UserActionDataFrame.SCHEMA)
     user_actions = UserActionDataFrame(input_df)
 
     expected_df = spark.createDataFrame([
@@ -171,10 +172,10 @@ def test_単一レコードの場合そのレコードが残る(spark: SparkSess
             action_name=ConstantsHelper.ACTION_NAME,
             action_time=ConstantsHelper.ACTION_TIME,
         ),
-    ])
+    ], schema=UserActionDataFrame.SCHEMA)
 
     # Act
     result = get_latest_user_actions(user_actions)
 
     # Assert
-    assert result.df.collect() == expected_df.collect()
+    assertDataFrameEqual(result.df, expected_df)

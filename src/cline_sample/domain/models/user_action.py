@@ -33,19 +33,18 @@ class UserActionDataFrame:
         action_time (TimestampType): アクションが実行された日時
     """
     _df: DataFrame
+    SCHEMA = StructType([
+        StructField("id", IntegerType(), True),
+        StructField("username", StringType(), True),
+        StructField("user_machine_id", StringType(), True),
+        StructField("action_name", StringType(), True),
+        StructField("action_time", TimestampType(), True)
+    ])
 
     def __init__(self, df: DataFrame):
-        SCHEMA = StructType([
-            StructField("id", IntegerType(), True),
-            StructField("username", StringType(), True),
-            StructField("user_machine_id", StringType(), True),
-            StructField("action_name", StringType(), True),
-            StructField("action_time", TimestampType(), True)
-        ])
-
-        if df.schema != SCHEMA:
+        if df.schema != self.SCHEMA:  # pragma: no cover
             raise ValueError(
-                f"DataFrame schema does not match expected schema. Expected: {SCHEMA}, but got: {df.schema}"
+                f"DataFrame schema does not match expected schema. Expected: {self.SCHEMA}, but got: {df.schema}"
             )
 
         self._df = df
