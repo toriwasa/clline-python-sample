@@ -1,6 +1,7 @@
-from domain.models.user_action import UserActionDataFrame
 from pyspark.sql import Window
 from pyspark.sql.functions import col, row_number
+
+from cline_sample.domain.models.user_action import UserActionDataFrame
 
 
 def get_latest_user_actions(user_actions: UserActionDataFrame) -> UserActionDataFrame:
