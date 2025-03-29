@@ -3,4 +3,5 @@
 data/sqlite_db
 __pycache__
 .coverage
+coverage.xml
 .pytest_cache
