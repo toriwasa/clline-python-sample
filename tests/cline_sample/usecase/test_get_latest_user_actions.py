@@ -12,7 +12,7 @@ from cline_sample.usecase.get_latest_user_actions import get_latest_user_actions
 def spark():
     """テストで使用する SparkSession を提供する fixture"""
     spark = (
-        SparkSession.builder.appName("TestSparkSession")
+        SparkSession.builder.appName("TestSparkSession")  # type: ignore
         .master("local[*]")
         .getOrCreate()
     )

@@ -1,13 +1,12 @@
+from domain.models.user_action import UserActionDataFrame
 from pyspark.sql import SparkSession
 from pyspark.sql.types import (
-    StructType,
-    StructField,
-    StringType,
     IntegerType,
+    StringType,
+    StructField,
+    StructType,
     TimestampType,
 )
-
-from domain.models.user_action import UserActionDataFrame
 
 
 def read_user_action_tsv_as_df(
@@ -25,7 +24,7 @@ def read_user_action_tsv_as_df(
         ValueError: DataFrameのスキーマが不正な場合に発生
     """
     # SparkSessionの作成
-    spark: SparkSession = SparkSession.builder.appName("UserActionReader").getOrCreate()
+    spark: SparkSession = SparkSession.builder.appName("UserActionReader").getOrCreate()  # type: ignore
 
     # スキーマの定義
     schema = StructType(
