@@ -3,11 +3,11 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType, 
 
 from domain.models.user_action import UserActionDataFrame
 
-def read_user_action_tsv_as_df(spark: SparkSession, file_path: str = "data/tsv/user_action.tsv") -> UserActionDataFrame:
+
+def read_user_action_tsv_as_df(file_path: str = "data/tsv/user_action.tsv") -> UserActionDataFrame:
     """TSVファイルからユーザーアクションのデータを読み込みUserActionDataFrameを返却する
 
     Args:
-        spark (SparkSession): Sparkセッション
         file_path (str, optional): 読み込むTSVファイルのパス. デフォルトは "data/tsv/user_action.tsv"
 
     Returns:
@@ -16,6 +16,9 @@ def read_user_action_tsv_as_df(spark: SparkSession, file_path: str = "data/tsv/u
     Raises:
         ValueError: DataFrameのスキーマが不正な場合に発生
     """
+    # SparkSessionの作成
+    spark: SparkSession = SparkSession.builder.appName("UserActionReader").getOrCreate()
+
     # スキーマの定義
     schema = StructType([
         StructField("id", IntegerType(), True),  # 一時的にStringTypeとして読み込み
