@@ -56,6 +56,8 @@
             "source.fixAll": "explicit",
             // 自動フォーマット時にimportの整理を行う
             "source.organizeImports": "explicit"
-        },
-    }
+        }
+    },
+    // 開発時のPython実行バイナリはワークスペース外の仮想環境を指定する
+    "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python",
 }
