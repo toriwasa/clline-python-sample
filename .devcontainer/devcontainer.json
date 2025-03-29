@@ -1,0 +1,35 @@
+{
+    "name": "cline-python-workspace",
+    "dockerComposeFile": [
+        "docker-compose.dev.yml"
+    ],
+    "service": "python-dev",
+    "postCreateCommand": [
+        "bash",
+        ".devcontainer/postCreateCommand.sh"
+    ],
+    "workspaceFolder": "/workspace",
+    "features": {
+        // 開発コンテナで SQLite3 を利用できるようにする
+        "ghcr.io/warrenbuckley/codespace-features/sqlite:latest": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Python開発用
+                "ms-python.python",
+                "charliermarsh.ruff",
+                "ms-python.vscode-pylance",
+                // TOMLの構文チェック
+                "tamasfe.even-better-toml",
+                // 汎用開発拡張
+                "waderyan.gitblame",
+                "mhutchie.git-graph",
+                "usernamehw.errorlens",
+                "wayou.vscode-todo-highlight",
+                "saoudrizwan.claude-dev",
+                "GitHub.copilot"
+            ]
+        }
+    }
+}

@@ -1,0 +1,49 @@
+{
+    // 【エディタ全体の設定】
+    // ファイル保存時に行末の空白を削除する
+    "files.trimTrailingWhitespace": true,
+    // デフォルト改行コードは LF 固定
+    "files.eol": "\n",
+    // 最終行以降に追記した場合に追加分だけが差分になるように末尾に改行を追加する
+    "files.insertFinalNewline": true,
+    // 差分表示の際に空白を無視する
+    "diffEditor.ignoreTrimWhitespace": false,
+    // 保存時に自動フォーマットを行う
+    "editor.formatOnSave": true,
+    // 相対パスコピー時にスラッシュ区切りでコピーする
+    "explorer.copyRelativePathSeparator": "/",
+    // 連続する空白文字を表示する
+    "editor.renderWhitespace": "boundary",
+    // 【開発機能の設定】
+    // リモートリポジトリを自動で更新する
+    "git.autofetch": true,
+    // 【拡張機能設定】
+    // Git Blame のメッセージを行末に表示する
+    "gitblame.inlineMessageEnabled": true,
+    // Git Blame のメッセージ形式設定
+    "gitblame.inlineMessageFormat": "${author.name} (${time.ago}) ${commit.summary}",
+    // TODOコメントの表示形式設定
+    "todohighlight.defaultStyle": {
+        "color": "#ffffff",
+    },
+    "todohighlight.keywords": [
+        {
+            "backgroundColor": "#daab10",
+            "text": "TODO:"
+        },
+        {
+            "backgroundColor": "#f4761c",
+            "text": "WARNING:"
+        },
+        {
+            "backgroundColor": "#f271cb",
+            "text": "FIXME:"
+        },
+        {
+            "backgroundColor": "#2459f5",
+            "text": "NOTE:"
+        }
+    ],
+    // 【Python固有の設定】
+    "[Python]": {}
+}
