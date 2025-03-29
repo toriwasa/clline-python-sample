@@ -18,9 +18,7 @@ dev = [
 ]
 
 [tool.pyright]
-include = ["src", "tests"]
-venvPath = "/home/vscode"
-venv = ".venv"
+include = ["src", "tests", "tool"]
 
 [tool.pytest.ini_options]
 addopts = "--cov=src --cov-report=term-missing -v"
