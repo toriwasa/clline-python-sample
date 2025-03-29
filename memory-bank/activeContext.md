@@ -27,9 +27,9 @@
 ## Next Steps
 
 ### Immediate Tasks
-1. Implement base domain model structure
-2. Set up DataFrame validation patterns
-3. Create infrastructure layer foundations
+1. ✅ Implement base domain model structure (UserAction)
+2. ✅ Set up DataFrame validation patterns (UserActionDataFrame)
+3. ✅ Create infrastructure layer foundations (TSV/SQLite readers)
 4. Establish testing framework
 
 ### Technical Setup
@@ -41,10 +41,11 @@
 ## Active Decisions and Considerations
 
 ### Architecture Decisions
-- Using Spark DataFrame as primary data structure
-- Implementing strict validation in domain models
-- Separating business logic from infrastructure
-- Maintaining functional purity in use cases
+- Using Spark DataFrame as primary data structure (implemented in UserActionDataFrame)
+- Implementing strict validation in domain models (schema validation in constructors)
+- Separating business logic from infrastructure (TSV/SQLite readers only handle data conversion)
+- Maintaining functional purity in use cases (pending implementation)
+- Supporting multiple data sources (TSV files and SQLite database)
 
 ### Code Quality Focus
 - Strict type checking with pyright
@@ -75,7 +76,8 @@
 - Type safety is a primary concern
 
 ### Best Practices
-- Document all function signatures
-- Validate DataFrames in constructors
-- Use properties for DataFrame access
-- Keep business logic pure and functional
+- ✅ Document all function signatures (implemented in UserAction and readers)
+- ✅ Validate DataFrames in constructors (UserActionDataFrame)
+- ✅ Use properties for DataFrame access (df property)
+- Keep business logic pure and functional (pending use case implementation)
+- Use Iterator pattern for database reads (implemented in SQLite reader)

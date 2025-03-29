@@ -54,11 +54,14 @@ uv run pyright
 - Private functions for internal layer use only
 
 ### DataFrame Class Standards
-- Use _df for private DataFrame attributes
-- Implement schema validation in constructors
-- Provide DataFrame access through properties
-- Include class documentation with field descriptions
-- Calculable values exposed as properties
+- ✅ Use _df for private DataFrame attributes (UserActionDataFrame)
+- ✅ Implement schema validation in constructors (with StructType schema)
+- ✅ Provide DataFrame access through properties (df property)
+- ✅ Include class documentation with field descriptions
+- ✅ Schema definition with StructField types:
+  - IntegerType for numeric IDs
+  - StringType for text fields
+  - TimestampType for datetime fields
 
 ## Dependencies
 
@@ -70,8 +73,11 @@ uv run pyright
 - pyright for type checking
 
 ### Infrastructure Dependencies
-- S3 integration capabilities
-- Database integration capabilities
+- S3 integration capabilities (pending)
+- Database integration capabilities:
+  - SQLite for local storage
+  - DataFrame operations with Apache Spark
+  - TSV file reading capabilities
 
 ## Tool Usage Patterns
 
@@ -100,11 +106,15 @@ uv run pyright
 - Class documentation includes data and property descriptions
 
 ### Architecture Implementation
-- Domain models define data structures
-- Infrastructure layer handles data conversion only
-- Use cases implement pure business logic
-- Controllers orchestrate operations
-- CUI handlers manage command-line interaction
+- Domain models define data structures:
+  - UserAction for core data
+  - UserActionDataFrame for DataFrame operations
+- Infrastructure layer handles data conversion only:
+  - TSV file reading with schema validation
+  - SQLite data access with Iterator pattern
+- Use cases implement pure business logic (pending)
+- Controllers orchestrate operations (pending)
+- CUI handlers manage command-line interaction (pending)
 
 ### Business Logic Patterns
 - Pure functions without side effects

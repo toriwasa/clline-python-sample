@@ -34,9 +34,13 @@
 
 ### Data Handling
 - Spark DataFrame as primary data structure
+  - Implemented in UserActionDataFrame with schema validation
+  - Property-based access through df property
+  - Strict schema checking in constructor
 - Strong typing with pyright
-- Schema validation in constructors
-- Property-based DataFrame access
+  - Type hints on all function parameters
+  - Dataclass usage for domain models
+  - Iterator typing in SQLite reader
 
 ### Code Organization
 - Clear separation of concerns
@@ -47,10 +51,10 @@
 ## Design Patterns in Use
 
 ### Domain-Driven Design Patterns
-- Rich Domain Models
-- Immutable Data Classes
-- Value Objects (DataFrames)
-- Repository Pattern (Infrastructure)
+- Rich Domain Models (UserAction implementation)
+- Immutable Data Classes (UserAction with dataclass)
+- Value Objects (UserActionDataFrame with DataFrame)
+- Repository Pattern (TSV and SQLite implementations)
 
 ### Functional Patterns
 - Pure Functions
@@ -87,11 +91,11 @@ flowchart TD
 ## Critical Implementation Paths
 
 ### Data Processing Flow
-1. CLI input parsing
-2. Parameter validation
-3. Controller orchestration
-4. Business logic execution
-5. Infrastructure operations
+1. CLI input parsing (pending)
+2. Parameter validation (implemented in DataFrame constructors)
+3. Controller orchestration (pending)
+4. Business logic execution (pending)
+5. Infrastructure operations (TSV and SQLite readers implemented)
 
 ### Validation Flow
 1. Schema validation in domain models
