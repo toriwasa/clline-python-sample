@@ -6,5 +6,5 @@ sudo chown -R vscode:vscode /workspace
 # pip の代わりにパッケージ管理ツール uv をインストールする
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# 必要な Python 開発用パッケージをインストールする
-uv add --dev ruff pyright
+# プロジェクトに必要な Python パッケージをインストールする
+uv sync
