@@ -9,8 +9,10 @@
   - .clinerules
   - .clineignore
   - .gitignore
+  - .python-version
+  - pyproject.toml
 - 空の memory-bank ディレクトリを作成する
-- 開発内容に応じて .devcontainer の内容を書き換える
+- 開発内容に応じて .devcontainer および pyproject.toml の内容を書き換える
 - .devcontainer の内容を元に開発コンテナをビルドして起動する
 - .clinerules のプロジェクト内容に応じて書き換える
 - .clinerules にプロジェクトで実現したいシステムの概要を追記する
