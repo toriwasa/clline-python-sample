@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debug main.py",
+            "type": "debugpy",
+            "request": "launch",
+            // main.py を実行する
+            "program": "src/cline_sample/main.py",
+            "console": "integratedTerminal",
+            // 実行の都度引数を入力する
+            "args": "${command:pickArgs}"
+        }
+    ]
+}

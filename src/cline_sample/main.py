@@ -1,4 +1,5 @@
 from infrastructure.file import read_user_action_tsv_as_df
+from usecase.get_latest_user_actions import get_latest_user_actions
 
 
 def main():
@@ -6,9 +7,10 @@ def main():
         # TSVファイルからユーザーアクションのデータを読み込む
         user_action_df = read_user_action_tsv_as_df()
 
-        # 読み込んだデータを表示
-        print("Successfully read user action data:")
-        user_action_df.df.show()
+        # ユーザーアクションの最新データを取得する
+        latest_df = get_latest_user_actions(user_action_df)
+
+        latest_df.df.show()
 
     except ValueError as e:
         print(f"Error reading user action data: {e}")
