@@ -80,17 +80,29 @@ flowchart TD
     INFRA --> DM
     INFRA --> EXT[External Systems]
 
-    subgraph Implemented
-        DM
-        UC
-        INFRA
+    subgraph Implementation Status
+        subgraph Implemented
+            DM[Domain Models]
+            UC[Use Cases]
+            INFRA[Infrastructure]
+        end
+
+        subgraph Next Phase
+            CLI[CUI Handler]
+            CTRL[Controller]
+        end
+
+        subgraph Future
+            EXT[External Systems]
+        end
     end
 
-    subgraph Pending
-        CLI
-        CTRL
-        EXT
-    end
+    style DM fill:#90EE90
+    style UC fill:#90EE90
+    style INFRA fill:#90EE90
+    style CLI fill:#FFB6C1
+    style CTRL fill:#FFB6C1
+    style EXT fill:#F0E68C
 ```
 
 ### Dependency Rules
@@ -110,13 +122,14 @@ flowchart TD
 5. ✅ Infrastructure operations (TSV and SQLite readers implemented)
 
 ### Validation Flow
-1. ✅ Schema validation in domain models
-2. [ ] Input validation in separate functions
-3. [ ] Business rule validation in use cases
-4. [ ] External system validation in infrastructure
+1. ✅ Schema validation in domain models (implemented in UserActionDataFrame)
+2. [ ] Input validation in separate functions (next phase)
+3. [ ] Business rule validation in use cases (in planning)
+4. [ ] External system validation in infrastructure (future phase)
 
 ### Error Handling Path
-1. ✅ Schema validation errors
-2. [ ] Business rule violations
-3. [ ] Infrastructure errors
-4. [ ] CLI parameter errors
+1. ✅ Schema validation errors (DataFrame constructor validation)
+2. [ ] Business rule violations (to be implemented with use cases)
+3. [ ] Infrastructure errors (planned for next phase)
+4. [ ] CLI parameter errors (part of handler implementation)
+5. [ ] User feedback system (planned for CLI layer)

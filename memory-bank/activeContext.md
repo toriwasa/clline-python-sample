@@ -33,16 +33,18 @@
 ## Next Steps
 
 ### Immediate Tasks
-1. ✅ Implement base domain model structure (UserAction)
-2. ✅ Set up DataFrame validation patterns (UserActionDataFrame)
-3. ✅ Create infrastructure layer foundations (TSV/SQLite readers)
-4. ✅ Establish testing framework with Spark session fixtures
+1. [ ] Implement CLI handler layer
+2. [ ] Create base controller structure
+3. [ ] Design error handling strategy
+4. [ ] Implement additional use cases
 
 ### Technical Setup
 1. ✅ Configure Ruff for linting and formatting (configured in pyproject.toml)
 2. ✅ Set up pyright type checking (configured in pyproject.toml)
 3. ✅ Initialize pytest testing structure (tests/cline_sample/usecase contains first tests)
 4. ✅ Set up Spark environment (implemented in UserActionDataFrame)
+5. [ ] Design CLI parameter handling system
+6. [ ] Establish comprehensive error handling patterns
 
 ## Active Decisions and Considerations
 
