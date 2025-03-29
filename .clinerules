@@ -11,7 +11,18 @@
 ## Linterの実行方法
 
 ```bash
+uv run ruff check --fix
+```
 
+## Formatterの実行方法
+
+```bash
+uv run ruff format
+```
+
+## Type Checkerの実行方法
+```bash
+uv run pyright
 ```
 
 ## ディレクトリ構成
