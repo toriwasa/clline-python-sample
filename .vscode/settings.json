@@ -65,8 +65,8 @@
             "source.organizeImports.ruff": "explicit"
         }
     },
-    // 開発時のPython実行バイナリはワークスペース外の仮想環境を指定する
-    "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python",
+    // 開発時のPython実行バイナリは仮想環境を指定する
+    "python.defaultInterpreterPath": ".venv/bin/python",
     // 変数および関数の返り値について推論した型ヒントを表示する
     "python.analysis.inlayHints.variableTypes": true,
     "python.analysis.inlayHints.functionReturnTypes": true,

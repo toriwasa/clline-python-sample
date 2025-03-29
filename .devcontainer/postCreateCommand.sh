@@ -10,7 +10,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source /home/vscode/.local/bin/env
 
 # Python 3.11 の.venv 作成
-# workspace とは別の場所に指定しないとハードリンクが作成できずエラーが発生してしまう
+# workspace とは別の場所に指定しないとハードリンクが作成できずuv runコマンド実行時にエラーが発生する
+# 意図通りに動作しない場合があるため workspace 以外の場所に作成する
 uv venv --python 3.11 /home/vscode/.venv
 # ワークスペース直下には上記 .venv のシンボリックリンクを作成する
 ln -s /home/vscode/.venv /workspace/.venv

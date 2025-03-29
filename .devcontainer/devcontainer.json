@@ -33,10 +33,5 @@
                 "GitHub.copilot"
             ]
         }
-    },
-    "containerEnv": {
-        // uv が利用する仮想環境のパスを指定
-        // workspace とは別の場所に指定しないとハードリンクが作成できずエラーが発生してしまう
-        "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
     }
 }
