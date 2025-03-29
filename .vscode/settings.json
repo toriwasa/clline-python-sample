@@ -10,6 +10,13 @@
     "diffEditor.ignoreTrimWhitespace": false,
     // 保存時に自動フォーマットを行う
     "editor.formatOnSave": true,
+    // ファイル保存時の挙動を設定
+    "editor.codeActionsOnSave": {
+        // 自動フォーマット時にコードの修正を行う
+        "source.fixAll": "explicit",
+        // 自動フォーマット時にimportの整理を行う
+        "source.organizeImports": "explicit"
+    },
     // 相対パスコピー時にスラッシュ区切りでコピーする
     "explorer.copyRelativePathSeparator": "/",
     // 連続する空白文字を表示する
@@ -53,9 +60,9 @@
         // 保存時の挙動を設定
         "editor.codeActionsOnSave": {
             // 自動フォーマット時にコードの修正を行う
-            "source.fixAll": "explicit",
+            "source.fixAll.ruff": "explicit",
             // 自動フォーマット時にimportの整理を行う
-            "source.organizeImports": "explicit"
+            "source.organizeImports.ruff": "explicit"
         }
     },
     // 開発時のPython実行バイナリはワークスペース外の仮想環境を指定する

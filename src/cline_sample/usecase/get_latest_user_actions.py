@@ -1,5 +1,5 @@
 from pyspark.sql import Window
-from pyspark.sql.functions import row_number, desc, col
+from pyspark.sql.functions import col, row_number
 
 from cline_sample.domain.models.user_action import UserActionDataFrame
 
