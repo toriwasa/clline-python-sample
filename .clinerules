@@ -128,5 +128,11 @@ class User:
 - テスト関数名は処理内容ではなく検証したいビジネスルールを表現してください。例: test_不正なユーザー情報は集計されない
 - 単体テストコードは Arrange, Act, Assert の 3 つのセクションに分けて記述してください
 - Arrange セクションでは、テスト対象の関数に渡す引数や期待値を定義してください
+- Arrange セクションで同一の意味の値を複数回使用する場合は、テスト関数内に定義した ConstantHelper クラス配下に定数として定義してください
 - Act セクションでは、テスト対象の関数を呼び出して実行してください
 - Assert セクションでは、Act セクションで実行した結果が期待値と一致するかを検証してください
+
+## SparkDataFrameを引数に持つ公開関数のテストコード作成方針
+- Arrange セクションでは createDataFrame メソッドを使って入力値および期待値の DataFrame を作成してください
+- Arrange セクションで利用する createDataFrame メソッドは list[Row] 型のリストを引数として渡してください
+- Assert セクションでは assertDataFrameEqual メソッドを使って、実行結果の DataFrame と期待値の DataFrame を比較してください

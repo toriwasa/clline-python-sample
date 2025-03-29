@@ -3,17 +3,21 @@
 ## Technologies Used
 
 ### Core Technologies
-- Python - Primary programming language
-- Apache Spark - Data processing framework for DataFrame operations
+- Python (>=3.11) - Primary programming language
+- Apache Spark (>=3.5.5) - Data processing framework for DataFrame operations
+- pandas (>=2.2.3) - Used alongside Spark for data operations
+- Ruff (>=0.11.2) - Code linting and formatting tool
+- pyright (>=1.1.398) - Static type checking
 - pytest - Unit testing framework
-- Ruff - Code linting and formatting tool
-- pyright - Static type checking
 
 ## Development Setup
 
 ### Package Management
 - uv - Package manager and virtual environment tool
-- Python version specified in .python-version
+- Python 3.11+ (specified in .python-version)
+- Development dependencies managed in pyproject.toml:
+  - Core: pyspark, pandas
+  - Dev: faker, pyright, ruff
 
 ### Code Quality Tools
 ```bash
@@ -66,18 +70,20 @@ uv run pyright
 ## Dependencies
 
 ### Core Dependencies
-- Python runtime
-- Apache Spark for DataFrame operations
-- pytest for testing
-- Ruff for code quality
-- pyright for type checking
+- Python 3.11+ runtime
+- Apache Spark 3.5.5+ for DataFrame operations
+- pandas 2.2.3+ for data manipulation
+- Ruff 0.11.2+ for code quality
+- pyright 1.1.398+ for type checking
+- faker 37.1.0+ for test data generation
 
 ### Infrastructure Dependencies
 - S3 integration capabilities (pending)
 - Database integration capabilities:
-  - SQLite for local storage
-  - DataFrame operations with Apache Spark
-  - TSV file reading capabilities
+  - SQLite for local storage (implemented)
+  - DataFrame operations with Apache Spark (implemented)
+  - TSV file reading capabilities (implemented)
+  - UserActionDataFrame with schema validation (implemented)
 
 ## Tool Usage Patterns
 
@@ -107,14 +113,29 @@ uv run pyright
 
 ### Architecture Implementation
 - Domain models define data structures:
-  - UserAction for core data
-  - UserActionDataFrame for DataFrame operations
+  - UserAction for core data (implemented)
+  - UserActionDataFrame with Spark DataFrame operations (implemented)
 - Infrastructure layer handles data conversion only:
-  - TSV file reading with schema validation
-  - SQLite data access with Iterator pattern
+  - TSV file reading with schema validation (implemented)
+  - SQLite data access with Iterator pattern (implemented)
+  - Environment-aware connections (dev/stg/prod)
 - Use cases implement pure business logic (pending)
 - Controllers orchestrate operations (pending)
 - CUI handlers manage command-line interaction (pending)
+
+### Development Environment Setup
+```bash
+# Install dependencies
+uv pip install --upgrade pip
+uv pip install -e .
+uv pip install -e ".[dev]"
+
+# Create sample data (using faker)
+python tool/create_sample_data.py
+
+# Import TSV data to SQLite
+python tool/write_tsv_to_sqlite.py
+```
 
 ### Business Logic Patterns
 - Pure functions without side effects
