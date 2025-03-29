@@ -72,4 +72,10 @@
     "python.analysis.inlayHints.functionReturnTypes": true,
     // pytestのテストケースパラメータの型ヒントを表示する
     "python.analysis.inlayHints.pytestParameters": true,
+    // pytestのカバレッジをコード上に表示する
+    "python.experiments.optInto": [
+        "pythonTestAdapter"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
 }
