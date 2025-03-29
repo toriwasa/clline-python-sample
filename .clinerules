@@ -30,7 +30,7 @@ uv run pyright
 ```txt
 .
 ├ src
-│  └ cline-sample
+│  └ cline_sample
 │      ├ domain
 │      │    └ models  // ドメインモデルのデータクラスを定義
 │      ├ infrastructure
@@ -41,7 +41,7 @@ uv run pyright
 │      └ handler
 │           └ cui  // CUIで実行時のパラメータを受け取りコントローラー処理を呼び出す処理を定義
 └ tests
-  └ cline-sample
+  └ cline_sample
        └ usecase  // ビジネスロジック処理の単体テストコードを定義
 ```
 
@@ -58,7 +58,7 @@ uv run pyright
 - 関数には関数コメントを記述してください
 - 複雑な処理は、処理結果を説明する名前を持つ変数に代入して処理を分割してください
 - import 文はファイルの先頭にまとめて記述してください
-- import のパスは src/cline-sample からの相対パスで記述してください
+- import のパスは src からの相対パスで記述してください
 
 ## アーキテクチャ
 - domain/models 層に定義されたデータクラスを利用してS3やDBのデータを読み書きする公開関数を infrastructure 層に定義してください
