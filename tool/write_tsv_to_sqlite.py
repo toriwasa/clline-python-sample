@@ -21,7 +21,7 @@ DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def _create_spark_session() -> SparkSession:
     """SparkSessionを作成する"""
-    return SparkSession.builder.appName("TSVtoSQLite").master("local").getOrCreate()
+    return SparkSession.builder.appName("TSVtoSQLite").getOrCreate()
 
 
 def _create_table(conn: sqlite3.Connection) -> None:
