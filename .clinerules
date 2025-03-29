@@ -25,6 +25,11 @@ uv run ruff format
 uv run pyright
 ```
 
+## 単体テストの実行方法
+```bash
+PYTHONPATH=src uv run pytest
+```
+
 ## ディレクトリ構成
 
 ```txt
@@ -137,8 +142,37 @@ class User:
 - 単体テストコードの中では fixture を使って SparkSession を作成してください
 - 単体テスト関数は SparkSession の fixture を引数で受け取るようにしてください
 - Arrange セクションでは createDataFrame メソッドを使って入力値および期待値の DataFrame を作成してください
-- Arrange セクションで利用する createDataFrame メソッドは list[Row] 型のリストを引数として渡してください
-- Assert セクションでは assertDataFrameEqual メソッドを使って、実行結果の DataFrame と期待値の DataFrame を比較してください
+- Arrange セクションで利用する createDataFrame メソッドは list[Row] 型のリストと、作成する DataFrame クラスのスキーマを引数として渡してください
+- Assert セクションでは pyspark.testing.assertDataFrameEqual メソッドを使って、実行結果の DataFrame と期待値の DataFrame を比較してください
+
+## SparkDataFrameを引数に持つ公開関数の単体テストコードサンプル
+
+```python
+def test_不正なユーザー情報は集計されない(spark: SparkSession):
+    # Arrange
+    class ConstantHelper:
+        ID_1 = "1"
+        ID_2 = "2"
+        NAME_1 = "Alice"
+        NAME_2 = "Bob"
+        AGE_VALID = 25
+        AGE_INVALID = 30
+
+    input_df = [
+        Row(id=ConstantHelper.ID_1, name=ConstantHelper.NAME_1, age=ConstantHelper.AGE_VALID),
+        Row(id=ConstantHelper.ID_2, name=ConstantHelper.NAME_2, age=ConstantHelper.AGE_INVALID)
+    ]
+
+    expected_df = [
+        Row(id=ConstantHelper.ID_1, name=ConstantHelper.NAME_1, age=ConstantHelper.AGE_VALID),
+    ]
+
+    # Act
+    actual_df = filter_invalid_user(input_df)
+
+    # Assert
+    assertDataFrameEqual(actual_df, expected_df)
+```
 
 ## 実装時の注意点
 - 実装後は Formatter を実行してください

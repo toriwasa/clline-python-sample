@@ -7,7 +7,15 @@ requires-python = ">=3.11"
 dependencies = ["pandas>=2.2.3", "pyspark>=3.5.5"]
 
 [dependency-groups]
-dev = ["faker>=37.1.0", "pyright>=1.1.398", "pytest>=8.3.5", "ruff>=0.11.2"]
+dev = [
+    "faker>=37.1.0",
+    "numpy==1.26.4",
+    "pyarrow>=19.0.1",
+    "pyright>=1.1.398",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.11.2",
+]
 
 [tool.pytest.ini_options]
 addopts = "--cov=src --cov-report=term-missing -v"
