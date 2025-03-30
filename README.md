@@ -2,6 +2,51 @@
 ## Introduction
 - Python を使ってバックエンドのプログラム開発を行う際のサンプルリポジトリ
 
+## 技術スタック
+- プログラミング言語: Python
+- パッケージマネージャ: uv
+- DataFrame ライブラリ: Spark
+- Formatter: Ruff
+- Linter: Ruff
+- Type Checker: pyright
+- 単体テストフレームワーク: pytest
+
+## ディレクトリ構成
+
+```txt
+.
+├── README.md  このファイル
+├── .devcontainer  開発コンテナ定義ファイル置き場
+│   ├── devcontainer.json
+│   ├── docker-compose.dev.yml
+│   ├── postCreateCommand.sh
+│   └── Dockerfile
+├── .vscode
+│   ├── launch.json  デバッグタスクの設定ファイル
+│   └── settings.json  VSCodeのプロジェクト固有設定ファイル
+├── .clinerules  Clineのルールファイル
+├── .clineignore  Clineの無視ファイル
+├── .gitignore  Gitの無視ファイル
+├── .python-version  pyenvのバージョン指定ファイル
+├── .env  開発用に環境変数を定義するファイル
+├── pyproject.toml  Pythonのプロジェクト固有設定ファイル
+├── src  プロダクトコード置き場
+│   └── cline_sample  開発対象のパッケージディレクトリ
+│       ├── main.py  処理のエントリーポイント
+│       ├── domain  ドメイン層
+│       │   └── models  データクラス置き場
+│       ├── usecase  ユースケース層 ビジネスロジック置き場
+│       ├── infrastructure  インフラ層 データアクセス処理置き場
+│       ├── handler  ユーザーインターフェース層  WebAPIやCLIなどのユーザーインターフェース処理置き場
+│       └── controller  コントローラー層  usecase層やinfrastructure層を呼び出す
+├── tests  テストコード置き場
+│   └── cline_sample  開発対象のパッケージディレクトリ
+│       └── usecase  ユースケース層のテストコード置き場
+├ tool  開発用ツール置き場
+├ data  開発用テストデータ置き場
+└ memory-bank  Clineのメモリバンク置き場
+```
+
 ## How To Use
 - 以下のディレクトリおよびファイルをプロジェクトディレクトリにコピーする
   - .devcontainer
@@ -68,7 +113,23 @@ uv run pyright
 PYTHONPATH=src uv run pytest
 ```
 
-## ややこしい部分
+## VSCodeデバッグ機能の使い方
+- launch.json でmain.pyを任意の引数で実行する起動タスクを定義している
+- 開発コードの任意の場所にブレークポイントを設定する
+- Ctrl + Shift + D で "実行とデバッグ" タブを開く
+- Python: Debug main.py を選択して実行する
+- ブレークポイントで停止したら、デバッグコンソールで変数の値を確認したり、ステップ実行を行う
+- launch.json の設定を変更することで、実行するPythonファイルや引数を変更することができる
+
+## VSCodeのテスト機能の使い方
+- Ctrl + Shift + P でコマンドパレットを開く
+- "テスト: カバレッジを使用してすべてのテストを実行" を実行する
+- テスト結果が "テスト" タブに表示される
+- ファイル一覧の右側にテストのカバレッジが表示される
+- ウィンドウ左側のテストタブやウィンドウ下側のテスト結果タブでテストケースごとの結果を確認することもできる
+
+## 開発コンテナの .venv について
 - .venv をワークスペース配下に作ってしまうとuvコマンド実行時にファイルのハードコピーが作れずエラーが発生する
 - エラーが発生してもuvは動作するが速度が犠牲になるらしい
 - そのため /home/vscode/.venv に作成するようにしている
+- 上記の構成だと使い勝手が悪くなるため .venv のシンボリックリンクをワークスペース直下に作成している
